@@ -21,12 +21,19 @@ class Transaction {
   @Column()
   type: 'income' | 'outcome';
 
-  @Column()
+  @Column('decimal')
   value: number;
 
-  @ManyToOne(() => Category) //passa a model a ser usada
+  // @ManyToOne(() => Category) //passa a model a ser usada
+  // @JoinColumn({ name: 'category_id' })
+  // category: Category;
+
+  @Column()
+  category_id: string;
+
+  @ManyToOne(() => Category, category => category.transaction, { eager: true })
   @JoinColumn({ name: 'category_id' })
-  category_id: Category;
+  category: Category;
 
   @CreateDateColumn()
   created_at: Date;

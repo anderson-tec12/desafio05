@@ -5,9 +5,10 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateTransactionsDB1599013969907 implements MigrationInterface {
+export default class CreateTransactionsDB1599013969907
+  implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
+    // await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
 
     await queryRunner.createTable(
       new Table({
@@ -27,7 +28,9 @@ export class CreateTransactionsDB1599013969907 implements MigrationInterface {
           },
           {
             name: 'value',
-            type: 'integer',
+            type: 'decimal',
+            precision: 10,
+            scale: 2,
             isNullable: false,
           },
 
@@ -37,11 +40,11 @@ export class CreateTransactionsDB1599013969907 implements MigrationInterface {
             isNullable: false,
           },
 
-          {
-            name: 'category_id',
-            type: 'uuid',
-            isNullable: false,
-          },
+          // {
+          //   name: 'category_id',
+          //   type: 'uuid',
+          //   isNullable: false,
+          // },
 
           {
             name: 'created_at',
@@ -57,17 +60,17 @@ export class CreateTransactionsDB1599013969907 implements MigrationInterface {
       }),
     );
 
-    await queryRunner.createForeignKey(
-      'transactions',
-      new TableForeignKey({
-        name: 'TransactionCategory',
-        columnNames: ['category_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'categories',
-        onDelete: ' SET NULL',
-        onUpdate: 'CASCADE',
-      }),
-    );
+    // await queryRunner.createForeignKey(
+    //   'transactions',
+    //   new TableForeignKey({
+    //     name: 'TransactionCategory',
+    //     columnNames: ['category_id'],
+    //     referencedColumnNames: ['id'],
+    //     referencedTableName: 'categories',
+    //     onDelete: ' SET NULL',
+    //     onUpdate: 'CASCADE',
+    //   }),
+    // );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
